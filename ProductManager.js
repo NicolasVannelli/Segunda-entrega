@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 class ProductManager {
     constructor() {
@@ -16,11 +16,9 @@ class ProductManager {
             if (existingProduct) {
                 throw new Error(`Ya existe un producto con el código "${code}". El código debe ser único.`);
             }
-            
-            ProductManager.id++
-            
+                  
             const producto = {
-                id: ProductManager.id,
+                id: ProductManager.id++,
                 title,
                 description,
                 price,
@@ -30,7 +28,7 @@ class ProductManager {
             };
             this.products.find(producto => producto.code === code) ? console.error('El código del producto debe de ser único') : this.products.push(producto);
 
-            await fs.promises.writeFile(this.path, JSON.stringify(this.products));
+            await fs.promises.writeFile(this.path, JSON.stringify(this.products,null,"\t"),);
             console.log(`El producto "${producto.title}" ha sido agregado`);
 
             return producto;
@@ -74,7 +72,7 @@ class ProductManager {
 
                 const updateProducts = this.products.map(product => (product.id === id) ? updateProduct : product);
 
-                await fs.promises.writeFile(this.path, JSON.stringify(updateProducts));
+                await fs.promises.writeFile(this.path, JSON.stringify(updateProducts,null,"\t"));
                 console.log('Producto actualizado');
 
                 return updateProduct;
@@ -143,8 +141,56 @@ const producto4 = {
     code: "C004",
     stock: 90
 };
+const producto5 = {
+    title: 'manzana',
+    description: "pera x kg",
+    price: 800,
+    thumbnail: 'pera.jpg',
+    code: "C005",
+    stock: 90
+};
+const producto6 = {
+    title: 'durazno',
+    description: "pera x kg",
+    price: 800,
+    thumbnail: 'pera.jpg',
+    code: "C006",
+    stock: 90
+};
+const producto7 = {
+    title: 'kiwi',
+    description: "pera x kg",
+    price: 800,
+    thumbnail: 'pera.jpg',
+    code: "C007",
+    stock: 90
+};
+const producto8 = {
+    title: 'uva',
+    description: "pera x kg",
+    price: 800,
+    thumbnail: 'pera.jpg',
+    code: "C008",
+    stock: 90
+};
+const producto9 = {
+    title: 'pimiento',
+    description: "pera x kg",
+    price: 800,
+    thumbnail: 'pera.jpg',
+    code: "C009",
+    stock: 90
+};
+const producto10 = {
+    title: 'cebolla',
+    description: "pera x kg",
+    price: 800,
+    thumbnail: 'pera.jpg',
+    code: "C010",
+    stock: 90
+};
 
-const run = async () => {
+/*const run = async () => {
     let products = await PM.getProducts();
     console.log(products)
 
@@ -178,3 +224,18 @@ const run = async () => {
 }
 
 run();
+*/
+const run = async () => {
+    await PM.addProduct(producto1)
+    await PM.addProduct(producto2)
+    await PM.addProduct(producto3)
+    await PM.addProduct(producto4)
+    await PM.addProduct(producto5)
+    await PM.addProduct(producto6)
+    await PM.addProduct(producto7)
+    await PM.addProduct(producto8)
+    await PM.addProduct(producto9)
+    await PM.addProduct(producto10)
+}
+run();
+export default ProductManager;
